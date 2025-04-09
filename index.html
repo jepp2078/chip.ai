@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Dip-to-Chip Ratio Calculator</title>
+  <style>
+    body {
+      font-family: sans-serif;
+      padding: 2rem;
+      background-color: #f4f4f4;
+    }
+    .calculator {
+      max-width: 400px;
+      background: white;
+      padding: 1.5rem;
+      border-radius: 10px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    }
+    input, button {
+      width: 100%;
+      padding: 0.5rem;
+      margin-top: 1rem;
+      font-size: 1rem;
+    }
+    .result {
+      margin-top: 1rem;
+      font-weight: bold;
+    }
+  </style>
+</head>
+<body>
+  <div class="calculator">
+    <h2>Dip-to-Chip Ratio Calculator</h2>
+    <label for="bags">Number of Chip Bags:</label>
+    <input type="number" id="bags" placeholder="e.g. 5" />
+    <button onclick="calculateDip()">Calculate Dip Volume</button>
+    <div class="result" id="result"></div>
+  </div>
+
+  <script>
+    function calculateDip() {
+      const bags = parseFloat(document.getElementById("bags").value);
+      if (isNaN(bags) || bags <= 0) {
+        document.getElementById("result").textContent = "Please enter a valid number of chip bags.";
+        return;
+      }
+
+      const chipVolumePerBag = 825; // mL per bag
+      const totalChipVolume = bags * chipVolumePerBag;
+      const a = 85.6;
+      const b = 0.0005;
+
+      const dipVolume = a * Math.exp(b * totalChipVolume);
+      const ratio = dipVolume / totalChipVolume;
+
+      document.getElementById("result").innerHTML =
+        `Dip Volume: <strong>${dipVolume.toFixed(2)} mL</strong><br>` +
+        `Dip-to-Chip Ratio: <strong>${ratio.toFixed(4)}</strong>`;
+    }
+  </script>
+</body>
+</html>
